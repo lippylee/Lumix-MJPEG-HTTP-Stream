@@ -15,14 +15,14 @@ public class MJPG extends HttpServlet {
 	// source vars
 	DatagramSocket sourceSocket = null;
 	int sourcePort = 49199;
-    private InetAddress localIP;
+	private InetAddress localIP;
 
-    /**
-     * Constructor
-     * @see HttpServlet#HttpServlet()
-     */
-    public MJPG() {
-        super();
+	/**
+	* Constructor
+	* @see HttpServlet#HttpServlet()
+	*/
+	public MJPG() {
+		super();
 		try {
 			localIP = InetAddress.getLocalHost();
 			sourceSocket = new DatagramSocket(sourcePort);
@@ -32,12 +32,10 @@ public class MJPG extends HttpServlet {
 		} catch(UnknownHostException e) {
 			System.out.println("Local IP not found..?");
 		}
-    }
+	}
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// MJPG Content-type
 		response.setContentType("multipart/x-mixed-replace; boundary=--BoundaryString");
 
@@ -46,21 +44,23 @@ public class MJPG extends HttpServlet {
 		DatagramPacket incomingPacket;
 		byte[] rewriteBuffer;
 		byte[] inputBuffer;
-        int offset=132;
+		int offset=132;
 
 		inputBuffer = new byte[30000];
 
 		while(true) {
 			try {
 				incomingPacket = new DatagramPacket(inputBuffer, inputBuffer.length, localIP, sourcePort);
-                sourceSocket.receive(incomingPacket);
+				sourceSocket.receive(incomingPacket);
 				rewriteBuffer = incomingPacket.getData();
-            	for (int i = 130; i < 320; i += 1) {
-                	if (rewriteBuffer[i]==-1 && rewriteBuffer[i+1]==-40) {
-                    	offset = i;
-                	}
-                }
-                byte [] outputBuffer = Arrays.copyOfRange( rewriteBuffer, offset, incomingPacket.getLength() );
+
+				for (int i = 130; i < 320; i += 1) {
+					if (rewriteBuffer[i]==-1 && rewriteBuffer[i+1]==-40) {
+						offset = i;
+					}
+				}
+
+				byte [] outputBuffer = Arrays.copyOfRange( rewriteBuffer, offset, incomingPacket.getLength() );
 
 				outputStream.write((
 					"--BoundaryString\r\n" +
@@ -74,16 +74,15 @@ public class MJPG extends HttpServlet {
 
 				// Sleep to not flood browser.
 				TimeUnit.MILLISECONDS.sleep(50);
-			} catch (Exception e) {
-				System.out.println("Exception hit: " + e.getMessage());
-				return;
+				} catch (Exception e) {
+					System.out.println("Exception hit: " + e.getMessage());
+					return;
 			}
 		}
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-		throws ServletException, IOException {
-			doGet(request, response);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
 	}
 }
