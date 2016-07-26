@@ -5,6 +5,7 @@ This servlet converts the UDP stream from a G series Lumix camera into a HTTP MJ
 Note that this is an early release and there may be mistakes in either the code or instructions here. If you find any, please raise an issue or open a pull request with the changes. Thanks!
 
 You can test this out quickly by pulling the docker image as follows:
+
     docker pull lippylee/lumixmjpg
     docker run -p 8080:8080 -p 49199:49199/udp lumixmjpg
     
@@ -14,10 +15,12 @@ The docker image can be found [here](https://hub.docker.com/r/lippylee/lumixmjpg
 So far I've built with the following:
 
 #### Core
+
     Tomcat7+/8+
     JDK 1.8
     
 #### Non core
+
     brew (OSX)
     docker
 
