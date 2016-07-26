@@ -74,6 +74,9 @@ public class MJPG extends HttpServlet {
 
 				// Sleep to not flood browser.
 				TimeUnit.MILLISECONDS.sleep(50);
+				} catch (IOException ioe) {
+					outputStream.close();
+					return;
 				} catch (Exception e) {
 					System.out.println("Exception hit: " + e.getMessage());
 					return;
