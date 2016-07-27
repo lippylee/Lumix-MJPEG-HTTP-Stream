@@ -34,7 +34,7 @@ Replace [Tomcat version] with the version of tomcat you want to install on eithe
     javac -cp .:/usr/share/tomcat[Tomcat Version]/lib/servlet-api.jar MJPG.java
     mkdir WEB-INF/classes
     cp MJPG.class WEB-INF/classes/MJPG.class
-    jar cvf MJPG WEB-INF/
+    jar cvf MJPG.war WEB-INF/
 
 #### OSX
     brew cask install java docker
@@ -42,7 +42,7 @@ Replace [Tomcat version] with the version of tomcat you want to install on eithe
     javac -cp .:/usr/local/Cellar/tomcat/[Tomcat Version]/libexec/lib/servlet-api.jar MJPG.java
     mkdir WEB-INF/classes
     cp MJPG.class WEB-INF/classes/MJPG.class
-    jar cvf MJPG WEB-INF/
+    jar cvf MJPG.war WEB-INF/
     
 #### docker
     docker build -t lumixmjpg .
